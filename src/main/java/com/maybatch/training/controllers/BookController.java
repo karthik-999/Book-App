@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.maybatch.training.entities.Book;
 import com.maybatch.training.exceptions.DuplicateEntryException;
 import com.maybatch.training.exceptions.EmptyPageRecordsException;
+import com.maybatch.training.response.ResponseMessage;
 import com.maybatch.training.services.interfaces.BookServiceInterface;
 
 @RestController
@@ -47,7 +48,7 @@ public class BookController {
 	/* CRUD- Training Exercise Behaviors */
 
 	@PostMapping("/create")
-	public Book addBook(@Valid @RequestBody Book book) {
+	public ResponseEntity<Book> addBook(@Valid @RequestBody Book book) {
 		logger.debug("Request Adding Book {}", book);
 		startTime = Instant.now();
 
@@ -59,11 +60,11 @@ public class BookController {
 		Duration elapsedTime = Duration.between(startTime, stopTime);
 		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
 
-		return book;
+		return new ResponseEntity<Book>(book, HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/delete/{bookId}")
-	public void deleteBook(@PathVariable Long bookId) {
+	public ResponseEntity<ResponseMessage> deleteBook(@PathVariable Long bookId) {
 		logger.debug("Request Deleting Book {}", bookId);
 		startTime = Instant.now();
 
@@ -73,11 +74,11 @@ public class BookController {
 		Instant stopTime = Instant.now();
 		Duration elapsedTime = Duration.between(startTime, stopTime);
 		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
-
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Succesfully Deleted"),HttpStatus.OK);
 	}
 
 	@GetMapping("/getBook/{bookId}")
-	public Book getBook(@PathVariable Long bookId) {
+	public ResponseEntity<Book> getBook(@PathVariable Long bookId) {
 		logger.debug("Request get Book {}", bookId);
 		startTime = Instant.now();
 
@@ -88,11 +89,11 @@ public class BookController {
 		Duration elapsedTime = Duration.between(startTime, stopTime);
 		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
 
-		return book;
+		return new ResponseEntity<Book>(book, HttpStatus.OK);
 	}
 
 	@PutMapping("/update/")
-	public Book updateBook(@Valid @RequestBody Book book) {
+	public ResponseEntity<ResponseMessage> updateBook(@Valid @RequestBody Book book) {
 		logger.debug("Request Update Book {}", book);
 		startTime = Instant.now();
 
@@ -104,11 +105,11 @@ public class BookController {
 		Duration elapsedTime = Duration.between(startTime, stopTime);
 		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
 
-		return book;
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Successfully Updated"),HttpStatus.OK);
 	}
 
 	@GetMapping("/getBooks")
-	public List<Book> getBooks() {
+	public ResponseEntity<List<Book>> getBooks() {
 		logger.debug("Request get All Books {}");
 		startTime = Instant.now();
 
@@ -119,7 +120,7 @@ public class BookController {
 		Duration elapsedTime = Duration.between(startTime, stopTime);
 		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
 
-		return books;
+		return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
 	}
 
 	// Pagination
@@ -143,7 +144,7 @@ public class BookController {
 
 	// Native Queries
 	@GetMapping("/getBookByNative/{bookId}")
-	public Book getBookById(@PathVariable Long bookId) {
+	public ResponseEntity<Book> getBookById(@PathVariable Long bookId) {
 		startTime = Instant.now();
 
 		Book book = bookService.getBookByBookId(bookId);
@@ -152,11 +153,11 @@ public class BookController {
 		Duration elapsedTime = Duration.between(startTime, stopTime);
 		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
 
-		return book;
+		return new ResponseEntity<Book>(book, HttpStatus.OK);
 	}
 
 	@GetMapping("/getBookByAuthor/{author}")
-	public Book getBookByAuthor(@PathVariable String author) {
+	public ResponseEntity<Book> getBookByAuthor(@PathVariable String author) {
 		startTime = Instant.now();
 
 		Book book = bookService.getBookByAuthor(author);
@@ -165,7 +166,7 @@ public class BookController {
 		Duration elapsedTime = Duration.between(startTime, stopTime);
 		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
 
-		return book;
+		return new ResponseEntity<Book>(book, HttpStatus.OK);
 	}
 
 }
