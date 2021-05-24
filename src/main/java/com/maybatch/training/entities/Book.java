@@ -13,11 +13,11 @@ public class Book {
 
 	@Column
 	@NotNull
-	@Size(min = 2, max = 30 , message="Give Author Name")
+	@Size(min = 2, max = 30 , message="Give Author Name between 2 & 30 characters")
 	private String author;
 
 	@Column
-	@Size(min = 2, max = 30, message = "Give Book Description")
+	@Size(min = 2, max = 30, message = "Give Book Summary between 2 & 50 characters")
 	private String body;
 
 	@Id
