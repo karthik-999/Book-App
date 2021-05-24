@@ -1,0 +1,29 @@
+Adding Book
+	1. http://localhost:9999/book/create
+	
+																			{
+																			        "author": "Josh",
+																			        "body": " A Child Book",
+																			        "copiesOwned": 5,
+																			        "isbn": "xxxxx-xxxxxxxxx-xxxxx",
+																			        "title": "Story in Jungle"
+																				
+																			}
+	2. http://localhost:9999/book/update/
+																			{
+																			        "author": "Travis",
+																			        "body": "Jungle Book",
+																			        "bookId": 7,
+																			        "copiesOwned": 5,
+																			        "isbn": "xxxxx-xxxxxxxxx-xxxxx",
+																			        "title": "Story in Jungle"
+																				
+																			}
+	3. http://localhost:9999/book/getBooks
+																			
+	4. http://localhost:9999/book/delete/{bookId}
+	5. http://localhost:9999/v2/api-docs
+	6. http://localhost:9999/book/all/{pageNumber}/{pageSize}
+	7. http://localhost:9999/book//getBookByNative/{bookId}
+	8. http://localhost:9999/book//getBook/{bookId}
+	9. http://localhost:9999/book/getBookByAuthor/{AuthorName}
