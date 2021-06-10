@@ -30,7 +30,7 @@ public class BookServiceImpl implements BookServiceInterface {
 
 	@Override
 	public List<Book> getAllBooks() {
-		return (List<Book>) bookRepository.findAll();
+		return  bookRepository.findAll();
 	}
 
 	@Override

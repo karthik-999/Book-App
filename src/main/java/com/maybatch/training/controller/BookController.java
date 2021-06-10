@@ -1,15 +1,11 @@
-package com.maybatch.training.controllers;
+package com.maybatch.training.controller;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,87 +35,38 @@ public class BookController {
 	@Autowired
 	BookServiceInterface bookService;
 
-	Instant startTime = null;
-	Instant stopTime = null;
-
-	Logger logger = LoggerFactory.getLogger(BookController.class);
-
-	/* CRUD- Training Exercise Behaviors */
-
-	@PostMapping("/create")
+	@PostMapping("/add")
 	public ResponseEntity<Book> addBook(@Valid @RequestBody Book book) {
-		logger.debug("Request Adding Book {}", book);
-		startTime = Instant.now();
 
-		if (book != null && book.getBookId() != null && getBook(book.getBookId()) != null)
+		if (book != null && book.getBookId() != null && getBook(book.getBookId()).getBody() != null)
 			throw new DuplicateEntryException("Book already Exists. Add Books with new Title");
+
 		book = bookService.addBook(book);
-
-		stopTime = Instant.now();
-		Duration elapsedTime = Duration.between(startTime, stopTime);
-		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
-
-		return new ResponseEntity<Book>(book, HttpStatus.CREATED);
+		return new ResponseEntity<>(book, HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/delete/{bookId}")
 	public ResponseEntity<ResponseMessage> deleteBook(@PathVariable Long bookId) {
-		logger.debug("Request Deleting Book {}", bookId);
-		startTime = Instant.now();
-
 		bookService.deleteBook(bookId);
-
-		logger.debug("Response Deleting Book {}", bookId);
-		Instant stopTime = Instant.now();
-		Duration elapsedTime = Duration.between(startTime, stopTime);
-		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
-		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Succesfully Deleted"),HttpStatus.OK);
+		return new ResponseEntity<>(new ResponseMessage("Succesfully Deleted"), HttpStatus.OK);
 	}
 
 	@GetMapping("/getBook/{bookId}")
 	public ResponseEntity<Book> getBook(@PathVariable Long bookId) {
-		logger.debug("Request get Book {}", bookId);
-		startTime = Instant.now();
-
 		Book book = bookService.getBook(bookId);
-
-		logger.debug("Response get Book {}", bookId);
-		Instant stopTime = Instant.now();
-		Duration elapsedTime = Duration.between(startTime, stopTime);
-		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
-
-		return new ResponseEntity<Book>(book, HttpStatus.OK);
+		return new ResponseEntity<>(book, HttpStatus.OK);
 	}
 
 	@PutMapping("/update/")
 	public ResponseEntity<ResponseMessage> updateBook(@Valid @RequestBody Book book) {
-		logger.debug("Request Update Book {}", book);
-		startTime = Instant.now();
-
 		book = bookService.updateBook(book);
-
-		logger.debug("Response Updating Book {}", book);
-
-		Instant stopTime = Instant.now();
-		Duration elapsedTime = Duration.between(startTime, stopTime);
-		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
-
-		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Successfully Updated"),HttpStatus.OK);
+		return new ResponseEntity<>(new ResponseMessage("Successfully Updated"), HttpStatus.OK);
 	}
 
 	@GetMapping("/getBooks")
 	public ResponseEntity<List<Book>> getBooks() {
-		logger.debug("Request get All Books {}");
-		startTime = Instant.now();
-
 		List<Book> books = bookService.getAllBooks();
-
-		logger.debug("Response get Book {}", books);
-		Instant stopTime = Instant.now();
-		Duration elapsedTime = Duration.between(startTime, stopTime);
-		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
-
-		return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
+		return new ResponseEntity<>(books, HttpStatus.OK);
 	}
 
 	// Pagination
@@ -145,28 +91,14 @@ public class BookController {
 	// Native Queries
 	@GetMapping("/getBookByNative/{bookId}")
 	public ResponseEntity<Book> getBookById(@PathVariable Long bookId) {
-		startTime = Instant.now();
-
 		Book book = bookService.getBookByBookId(bookId);
-
-		Instant stopTime = Instant.now();
-		Duration elapsedTime = Duration.between(startTime, stopTime);
-		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
-
-		return new ResponseEntity<Book>(book, HttpStatus.OK);
+		return new ResponseEntity<>(book, HttpStatus.OK);
 	}
 
 	@GetMapping("/getBookByAuthor/{author}")
 	public ResponseEntity<Book> getBookByAuthor(@PathVariable String author) {
-		startTime = Instant.now();
-
 		Book book = bookService.getBookByAuthor(author);
-
-		Instant stopTime = Instant.now();
-		Duration elapsedTime = Duration.between(startTime, stopTime);
-		logger.debug("Total Time Execution {}ms", elapsedTime.toMillis());
-
-		return new ResponseEntity<Book>(book, HttpStatus.OK);
+		return new ResponseEntity<>(book, HttpStatus.OK);
 	}
 
 }

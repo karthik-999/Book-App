@@ -5,20 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
+@Table(name="Book")
 public class Book {
-
-	@Column
-	@NotNull
-	@Size(min = 2, max = 30 , message="Give Author Name between 2 & 30 characters")
-	private String author;
-
-	@Column
-	@Size(min = 2, max = 30, message = "Give Book Summary between 2 & 50 characters")
-	private String body;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,7 +19,13 @@ public class Book {
 	private Long bookId;
 
 	@Column
-	private Integer copiesOwned;
+	@NotNull
+	@Size(min = 2, max = 30, message = "Give Author Name between 2 & 30 characters")
+	private String author;
+
+	@Column
+	@Size(min = 2, max = 30, message = "Give Book Summary between 2 & 50 characters")
+	private String summary;
 
 	@Column
 	@NotNull
@@ -36,6 +35,10 @@ public class Book {
 	@Size(min = 2, max = 30, message = "Give Book Title")
 	private String title;
 
+	@Column(name = "price")
+	@NotNull
+	private Double price;
+
 	public Book() {
 		super();
 	}
@@ -44,16 +47,8 @@ public class Book {
 		return author;
 	}
 
-	public String getBody() {
-		return body;
-	}
-
 	public Long getBookId() {
 		return bookId;
-	}
-
-	public Integer getCopiesOwned() {
-		return copiesOwned;
 	}
 
 	public String getIsbn() {
@@ -68,16 +63,8 @@ public class Book {
 		this.author = author;
 	}
 
-	public void setBody(String body) {
-		this.body = body;
-	}
-
 	public void setBookId(Long bookId) {
 		this.bookId = bookId;
-	}
-
-	public void setCopiesOwned(Integer copiesOwned) {
-		this.copiesOwned = copiesOwned;
 	}
 
 	public void setIsbn(String isbn) {
@@ -86,6 +73,22 @@ public class Book {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 }
