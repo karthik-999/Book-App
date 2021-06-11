@@ -22,7 +22,8 @@ public class OrderController {
 	public ResponseEntity<PaymentDeductionResponseDTO> paymentDeduction(
 			@RequestBody PaymentDetailsRequest paymentDetailsRequest) {
 
-		return paymentService.paymentDeduction(paymentDetailsRequest);
+		var paymentDetailsResponse =  paymentService.paymentDeduction(paymentDetailsRequest);
+		return paymentDetailsResponse;
 
 	}
 

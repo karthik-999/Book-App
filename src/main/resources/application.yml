@@ -1,10 +1,12 @@
+#Acutator propertiesmanagement:  server:    port: 8091  endpoints:    web:      exposure:        include:        - "*"
+  endpoint:    health:      show-details: "always"      
 server:
   port: 9999
   servlet:
     application-display-name: Book Application
     context-path: /book-app
 spring:
-  datasource:
+  application:    name: Book-Ordering-App  datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: root
     url: jdbc:mysql://localhost:3306/bookapp
@@ -26,3 +28,5 @@ logging:  pattern:    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     '[com.maybatch.training]': DEBUG
     '[org.hibernate]': INFO
   file: /logs/application.log      
+#Eureka Client
+eureka:  client:    register-with-eureka: true    fetch-registry: true    service-url:      defaultZone: http://localhost:8761/eureka/
